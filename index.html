@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#292b47">
+<title>员工码 - Demo</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #f8eab8;
+  background: radial-gradient(ellipse at 50% 35%, #41425b, #292b47 75%);
+}
+.app {
+  max-width: 500px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 35px 12px;
+}
+.name {
+  text-align: center;
+  font-size: clamp(19px, 5vw, 27px);
+  margin: 25px 0 30px;
+  overflow-wrap: anywhere;
+}
+.card {
+  background: #fff;
+  color: #111;
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px #0003;
+  text-align: center;
+}
+.gold {
+  min-height: 124px;
+  padding: 24px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff5cf;
+  font-size: 20px;
+  line-height: 1.7;
+  background: linear-gradient(120deg, #f6ca48, #eab72c);
+}
+.time {
+  font-size: clamp(20px, 5.5vw, 29px);
+  margin: 28px 0 8px;
+  color: #111;
+  font-variant-numeric: tabular-nums;
+}
+#qr {
+  display: block;
+  width: min(100%, 370px);
+  height: auto;
+  aspect-ratio: 1;
+  margin: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.hint {
+  color: #555;
+  font-size: 15px;
+  margin: 12px 0;
+}
+.status {
+  color: #7bcf88;
+  font-size: 23px;
+  line-height: 1.6;
+  padding: 4px 5px 10px;
+}
+button {
+  font-size: 15px;
+  padding: 10px 16px;
+  border: 1px solid #d4e8d8;
+  border-radius: 8px;
+  color: #28834a;
+  background: #f2f6f2;
+  margin-bottom: 18px;
+}
+.notice {
+  margin: 38px 16px 0;
+  font-size: 18px;
+  line-height: 1.9;
+  text-align: justify;
+}
+.demo {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 24px;
+  opacity: .8;
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="name">V25080120 (Nguyễn Hữu Sang)</div>
+
+  <section class="card">
+    <div class="gold">
+      员工二维码演示<br>
+      Chạm vào QR để thay đổi
+    </div>
+
+    <div class="time" id="clock">Đang tải giờ...</div>
+
+    <div style="padding: 0 18px">
+      <canvas id="qr" width="370" height="370"
+        role="button" tabindex="0"
+        aria-label="QR minh họa, chạm để đổi hình"></canvas>
+    </div>
+
+    <div class="hint" id="hint">
+      Chạm vào hình để đổi họa tiết
+    </div>
+
+    <div class="status">
+      <div>演示模式 · Bản thử nghiệm</div>
+      <div id="countdown">07:17:00</div>
+    </div>
+
+    <button type="button" id="refresh">
+      ↻ Làm mới hình QR
+    </button>
+  </section>
+
+  <div class="notice">
+    Đây là giao diện mô phỏng để thử nghiệm.
+    Hình QR chỉ mang tính minh họa, không phải mã
+    nhân viên hợp lệ và không dùng để xác thực ra vào.
+  </div>
+
+  <div class="demo">EMPLOYEE CODE · DEMO VERSION</div>
+</main>
+
+<script>
+const canvas = document.getElementById("qr");
+const ctx = canvas.getContext("2d");
+let version = 0;
+let remaining = 7 * 3600 + 17 * 60;
+
+function drawQR() {
+  version++;
+  const n = 37;
+  const grid = Array.from({length: n}, () =>
+    Array.from({length: n}, () => Math.random() > 0.5)
+  );
+
+  function finder(x, y) {
+    for (let dy = 0; dy < 7; dy++) {
+      for (let dx = 0; dx < 7; dx++) {
+        grid[y + dy][x + dx] =
+          dx === 0 || dx === 6 ||
+          dy === 0 || dy === 6 ||
+          (dx >= 2 && dx <= 4 &&
+           dy >= 2 && dy <= 4);
+      }
+    }
+  }
+
+  finder(1, 1);
+  finder(n - 8, 1);
+  finder(1, n - 8);
+
+  const cell = canvas.width / n;
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#080808";
+
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      if (grid[y][x]) {
+        ctx.fillRect(
+          Math.floor(x * cell),
+          Math.floor(y * cell),
+          Math.ceil(cell),
+          Math.ceil(cell)
+        );
+      }
+    }
+  }
+
+  document.getElementById("hint").textContent =
+    "Hình minh họa số " + version;
+}
+
+function updateClock() {
+  const d = new Date();
+  const p = n => String(n).padStart(2, "0");
+  document.getElementById("clock").textContent =
+    d.getFullYear() + "-" +
+    p(d.getMonth() + 1) + "-" +
+    p(d.getDate()) + " " +
+    p(d.getHours()) + ":" +
+    p(d.getMinutes()) + ":" +
+    p(d.getSeconds());
+}
+
+function updateCountdown() {
+  const h = Math.floor(remaining / 3600);
+  const m = Math.floor((remaining % 3600) / 60);
+  const s = remaining % 60;
+  document.getElementById("countdown").textContent =
+    [h, m, s].map(n => String(n).padStart(2, "0")).join(":");
+  if (remaining > 0) remaining--;
+}
+
+canvas.addEventListener("click", drawQR);
+canvas.addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === " ") {
+    e.preventDefault();
+    drawQR();
+  }
+});
+document.getElementById("refresh").addEventListener("click", drawQR);
+
+drawQR();
+updateClock();
+updateCountdown();
+setInterval(updateClock, 1000);
+setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
