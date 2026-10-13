@@ -1,5 +1,5 @@
-const CACHE_NAME = "employee-code-demo-v1";
-const APP_SHELL = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
+const CACHE_NAME = "Dmco";
+const APP_SHELL = ["./", "./index.html", "./manifest.json", "./Icon-192.png", "./Icon-512.png"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
   self.skipWaiting();
