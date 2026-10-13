@@ -1,11 +1,11 @@
 
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="cn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#292b47">
-<title>员工码 - Demo</title>
+<title>员工码 </title>
 <style>
 * { box-sizing: border-box; }
 body {
@@ -102,7 +102,6 @@ button {
   <section class="card">
     <div class="gold">
       员工二维码演示<br>
-      Chạm vào QR để thay đổi
     </div>
 
     <div class="time" id="clock">Đang tải giờ...</div>
@@ -110,7 +109,7 @@ button {
     <div style="padding: 0 18px">
       <canvas id="qr" width="370" height="370"
         role="button" tabindex="0"
-        aria-label="QR minh họa, chạm để đổi hình"></canvas>
+        aria-label=" "></canvas>
     </div>
 
     <div class="hint" id="hint">
@@ -118,8 +117,8 @@ button {
     </div>
 
     <div class="status">
-      <div>演示模式 · Bản thử nghiệm</div>
-      <div id="countdown">07:17:00</div>
+      <div>演示模式 · </div>
+      <div id="countup">07:17:00</div>
     </div>
 
     <button type="button" id="refresh">
@@ -128,9 +127,6 @@ button {
   </section>
 
   <div class="notice">
-    Đây là giao diện mô phỏng để thử nghiệm.
-    Hình QR chỉ mang tính minh họa, không phải mã
-    nhân viên hợp lệ và không dùng để xác thực ra vào.
   </div>
 
   <div class="demo">EMPLOYEE CODE · DEMO VERSION</div>
@@ -199,11 +195,11 @@ function updateClock() {
     p(d.getSeconds());
 }
 
-function updateCountdown() {
+function updateCountup() {
   const h = Math.floor(remaining / 3600);
   const m = Math.floor((remaining % 3600) / 60);
   const s = remaining % 60;
-  document.getElementById("countdown").textContent =
+  document.getElementById("countup").textContent =
     [h, m, s].map(n => String(n).padStart(2, "0")).join(":");
   if (remaining > 0) remaining--;
 }
@@ -219,9 +215,9 @@ document.getElementById("refresh").addEventListener("click", drawQR);
 
 drawQR();
 updateClock();
-updateCountdown();
+updateCountup();
 setInterval(updateClock, 1000);
-setInterval(updateCountdown, 1000);
+setInterval(updateCountup, 1000);
 </script>
 </body>
 </html>
