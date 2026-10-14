@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#46486b">
+<meta name="theme-color" content="#32344f">
 <title>员工码 - Employee QR Pass</title>
 <!-- PWA & iOS Meta Tags -->
 <link rel="manifest" href="manifest.json">
@@ -35,16 +35,18 @@
         overflow: hidden;
     }
 
+    /* Tinh chỉnh nền gradient khớp chính xác với ảnh chụp thực tế */
     body {
         position: fixed;
         top: 0;
         left: 0;
-        background: linear-gradient(180deg, #46486b 0%, #3c3e5d 38%, #2f3152 72%, #282a47 100%);
+        background: linear-gradient(180deg, #3d3f5c 0%, #32344f 40%, #252740 75%, #1e2036 100%);
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue",
                      "Segoe UI", Roboto, "Noto Sans SC", "Microsoft YaHei", sans-serif;
         touch-action: pan-x pan-y;
     }
 
+    /* Hình nền mờ isometric & chữ SECURITY */
     .bg-art {
         position: absolute;
         bottom: 0;
@@ -173,20 +175,21 @@
 </head>
 <body>
 
+    <!-- Hình nền mờ tinh chỉnh theo ảnh thực tế -->
     <svg class="bg-art" viewBox="0 0 390 300" aria-hidden="true">
-        <polygon points="215,40 410,115 215,190 20,115" fill="rgba(255,255,255,0.04)"/>
-        <polygon points="20,115 215,190 215,212 20,137" fill="rgba(0,0,0,0.07)"/>
-        <polygon points="410,115 215,190 215,212 410,137" fill="rgba(0,0,0,0.12)"/>
-        <polygon points="215,62 365,115 215,168 65,115" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width="1.5"/>
+        <polygon points="215,40 410,115 215,190 20,115" fill="rgba(255,255,255,0.035)"/>
+        <polygon points="20,115 215,190 215,212 20,137" fill="rgba(0,0,0,0.12)"/>
+        <polygon points="410,115 215,190 215,212 410,137" fill="rgba(0,0,0,0.2)"/>
+        <polygon points="215,62 365,115 215,168 65,115" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5"/>
         <text transform="translate(229 108) rotate(-23) scale(1 0.8)"
               text-anchor="middle" dominant-baseline="middle"
               font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
               font-size="27" font-weight="800" letter-spacing="3"
-              fill="rgba(255,255,255,0.08)">SECURITY</text>
+              fill="rgba(255,255,255,0.065)">SECURITY</text>
     </svg>
 
     <main class="app">
-        <h1 class="header-title" id="empTitle">V25080120(Nguyễn Hữu Sang(SAMQ NGUYEN))</h1>
+        <h1 class="header-title" id="empTitle">V25090015(Nguyễn Xuân Đài (DAYNE NGUYEN))</h1>
 
         <section class="qr-card">
             <div class="card-banner">将二维码对准扫描器刷码出场</div>
@@ -203,7 +206,7 @@
 
                 <div class="refresh-text" id="refreshBtn">刷新二维码</div>
 
-                <div class="timer-display" id="countUpTimer">00:00:00</div>
+                <div class="timer-display" id="countUpTimer">05:58:34</div>
             </div>
         </section>
 
@@ -285,15 +288,20 @@
             document.getElementById("qrPath").setAttribute("d", d);
         }
 
-        let totalSeconds = 0;
+        let totalSeconds = 21514; // Khởi tạo mốc hiển thị sẵn 05:58:34 khớp ảnh
         const timerEl = document.getElementById("countUpTimer");
-        setInterval(() => {
-            totalSeconds = (totalSeconds + 1) % 86400;
+
+        function updateCountUpTimer() {
             const h = Math.floor(totalSeconds / 3600);
             const mi = Math.floor((totalSeconds % 3600) / 60);
             const s = totalSeconds % 60;
+
             timerEl.textContent = pad(h) + ":" + pad(mi) + ":" + pad(s);
-        }, 1000);
+            totalSeconds = (totalSeconds + 1) % 86400;
+        }
+
+        updateCountUpTimer();
+        setInterval(updateCountUpTimer, 1000);
 
         const tsEl = document.getElementById("liveTimestamp");
         function updateLiveDateTime() {
