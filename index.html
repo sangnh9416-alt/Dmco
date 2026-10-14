@@ -69,7 +69,7 @@
         padding-top: calc(2.8rem + env(safe-area-inset-top, 0px));  
     }  
 
-    /* Tiêu đề: mã nhân viên + tên (màu kem vàng) - Vùng bấm 4 lần để thoát */  
+    /* Tiêu đề: mã nhân viên + tên (màu kem vàng) - Vùng bấm 3 lần để thoát */  
     .header-title {  
         height: 2.4rem;  
         margin-bottom: 1.9rem;  
@@ -160,7 +160,7 @@
         font-weight: 600;  
         color: #1fc84a;  
         font-variant-numeric: tabular-nums;  
-        cursor: pointer; /* Thêm con trỏ để nhận biết có thể bấm reset */  
+        cursor: pointer; /* Bấm vào đây để reset đồng hồ về 00:00:00 */  
     }  
 
     /* Dòng thông báo cuối trang: 3 dòng, hai dòng đầu căn đều hai bên, dòng đầu thụt 2 chữ */  
@@ -187,7 +187,7 @@
 <div class="bg-art" aria-hidden="true"></div>  
 
 <main class="app">  
-    <!-- Mã nhân viên + tên: Khu vực bấm 4 lần liên tiếp để thoát ứng dụng -->  
+    <!-- Mã nhân viên + tên: Khu vực bấm liên tiếp 3 lần để thoát ứng dụng -->  
     <h1 class="header-title" id="empTitle">V25080120(Nguyễn Hữu Sang(SAMQ NGUYEN))</h1>  
 
     <section class="qr-card">  
@@ -205,7 +205,7 @@
 
             <div class="refresh-text" id="refreshBtn">刷新二维码</div>  
 
-            <!-- Vùng hiển thị đồng hồ đếm lên (Bấm vào đây để reset về 00:00:00) -->  
+            <!-- Vùng hiển thị đồng hồ đếm lên (Bấm vào để reset về 00:00:00) -->  
             <div class="timer-display" id="countUpTimer">00:00:00</div>  
         </div>  
     </section>  
@@ -350,7 +350,7 @@
     document.getElementById("refreshBtn").addEventListener("click", refreshQR);  
     renderQR();  
 
-    /* ---------- Tính năng khoá vuốt & Chạm 4 lần liên tiếp để thoát ứng dụng ---------- */  
+    /* ---------- Chạm 3 lần liên tiếp vào tiêu đề để mở khóa / thoát ứng dụng ---------- */  
     let tapCount = 0;  
     let lastTapTime = 0;  
 
@@ -363,7 +363,7 @@
         }  
         lastTapTime = now;  
 
-        if (tapCount === 4) {  
+        if (tapCount === 3) {  
             tapCount = 0;  
             if (confirm("Xác nhận thoát ứng dụng?")) {  
                 window.close();  
@@ -374,7 +374,7 @@
         }  
     });  
 
-    // Ngăn chặn hoàn toàn các cử chỉ kéo trượt / pinch zoom  
+    // Ngăn chặn hoàn toàn các cử chỉ kéo trượt / pinch zoom / hành vi vuốt mặc định  
     document.addEventListener("gesturestart", (e) => e.preventDefault());  
     document.addEventListener("touchmove", (e) => {  
         e.preventDefault();  
