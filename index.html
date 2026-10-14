@@ -1,4 +1,5 @@
-<!DOCTYPE html>  <html lang="vi">  
+<!DOCTYPE html>  
+<html lang="vi">  
 <head>  
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -42,7 +43,7 @@ body {
     touch-action: pan-x pan-y;  
 }  
 
-/* Hình nền mờ: bệ isometric + chữ SECURITY ở phần dưới */  
+/* Hình nền ảnh */  
 .bg-art {  
     position: absolute;  
     bottom: 0;  
@@ -52,6 +53,7 @@ body {
     margin-left: -19.5rem;  
     z-index: 0;  
     pointer-events: none;  
+    object-fit: cover;  
 }  
 
 .app {  
@@ -173,21 +175,10 @@ body {
 
 </style>  
 </head>  
-<body>  <!-- Hình nền mờ -->  
-<svg class="bg-art" viewBox="0 0 390 300" aria-hidden="true">  
-    <!-- mặt trên -->  
-    <polygon points="215,40 410,115 215,190 20,115" fill="rgba(255,255,255,0.04)"/>  
-    <!-- hai mặt bên -->  
-    <polygon points="20,115 215,190 215,212 20,137" fill="rgba(0,0,0,0.07)"/>  
-    <polygon points="410,115 215,190 215,212 410,137" fill="rgba(0,0,0,0.12)"/>  
-    <!-- viền trong -->  
-    <polygon points="215,62 365,115 215,168 65,115" fill="none" stroke="rgba(255,255,255,0.035)" stroke-width="1.5"/>  
-    <text transform="translate(229 108) rotate(-23) scale(1 0.8)"  
-          text-anchor="middle" dominant-baseline="middle"  
-          font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"  
-          font-size="27" font-weight="800" letter-spacing="3"  
-          fill="rgba(255,255,255,0.08)">SECURITY</text>  
-</svg>  
+<body>  
+
+<!-- Hình nền ảnh -->  
+<img class="bg-art" src="7497.png" alt="" aria-hidden="true">  
 
 <main class="app">  
     <!-- Mã nhân viên + tên: sửa tại đây -->  
@@ -298,17 +289,27 @@ body {
         document.getElementById("qrPath").setAttribute("d", d);  
     }  
 
-    /* ---------- Đồng hồ đếm lên 00:00:00 -> 23:59:59 ---------- */  
-    let totalSeconds = 0;  
+    /* ---------- Đồng hồ đếm lên duy trì khi đóng app (localStorage) ---------- */  
     const timerEl = document.getElementById("countUpTimer");  
 
-    setInterval(() => {  
-        totalSeconds = (totalSeconds + 1) % 86400;  
-        const h = Math.floor(totalSeconds / 3600);  
-        const mi = Math.floor((totalSeconds % 3600) / 60);  
-        const s = totalSeconds % 60;  
+    let startTime = localStorage.getItem("emp_timer_start");  
+    if (!startTime) {  
+        startTime = Date.now();  
+        localStorage.setItem("emp_timer_start", startTime);  
+    } else {  
+        startTime = Number(startTime);  
+    }  
+
+    function updateTimer() {  
+        const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000) % 86400;  
+        const h = Math.floor(elapsedSeconds / 3600);  
+        const mi = Math.floor((elapsedSeconds % 3600) / 60);  
+        const s = elapsedSeconds % 60;  
         timerEl.textContent = pad(h) + ":" + pad(mi) + ":" + pad(s);  
-    }, 1000);  
+    }  
+
+    updateTimer();  
+    setInterval(updateTimer, 1000);  
 
     /* ---------- Ngày giờ thực phía trên mã QR ---------- */  
     const tsEl = document.getElementById("liveTimestamp");  
