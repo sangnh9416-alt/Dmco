@@ -33,6 +33,7 @@
         width: 100%;  
         height: 100%;  
         overflow: hidden;  
+        overscroll-behavior: none; /* Khoá hoàn toàn hiệu ứng kéo nảy */  
     }  
 
     body {  
@@ -42,7 +43,7 @@
         background: linear-gradient(180deg, #46486b 0%, #3c3e5d 38%, #2f3152 72%, #282a47 100%);  
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue",  
                      "Segoe UI", Roboto, "Noto Sans SC", "Microsoft YaHei", sans-serif;  
-        touch-action: pan-x pan-y;  
+        touch-action: none; /* Khoá toàn bộ cử chỉ vuốt chạm mặc định của trình duyệt */  
     }  
 
     /* Lớp nền sử dụng hình 7497.png làm ảnh nền CSS phủ kín màn hình */  
@@ -68,7 +69,7 @@
         padding-top: calc(2.8rem + env(safe-area-inset-top, 0px));  
     }  
 
-    /* Tiêu đề: mã nhân viên + tên (màu kem vàng) */  
+    /* Tiêu đề: mã nhân viên + tên (màu kem vàng) - Vùng bấm 4 lần để thoát */  
     .header-title {  
         height: 2.4rem;  
         margin-bottom: 1.9rem;  
@@ -81,6 +82,7 @@
         white-space: nowrap;  
         overflow: hidden;  
         text-overflow: ellipsis;  
+        cursor: pointer;  
     }  
 
     /* Thẻ QR: banner vàng + thân trắng, có hai vết khuyết tròn ở mép tại ranh giới */  
@@ -158,6 +160,7 @@
         font-weight: 600;  
         color: #1fc84a;  
         font-variant-numeric: tabular-nums;  
+        cursor: pointer; /* Thêm con trỏ để nhận biết có thể bấm reset */  
     }  
 
     /* Dòng thông báo cuối trang: 3 dòng, hai dòng đầu căn đều hai bên, dòng đầu thụt 2 chữ */  
@@ -184,7 +187,7 @@
 <div class="bg-art" aria-hidden="true"></div>  
 
 <main class="app">  
-    <!-- Mã nhân viên + tên: sửa tại đây -->  
+    <!-- Mã nhân viên + tên: Khu vực bấm 4 lần liên tiếp để thoát ứng dụng -->  
     <h1 class="header-title" id="empTitle">V25080120(Nguyễn Hữu Sang(SAMQ NGUYEN))</h1>  
 
     <section class="qr-card">  
@@ -202,6 +205,7 @@
 
             <div class="refresh-text" id="refreshBtn">刷新二维码</div>  
 
+            <!-- Vùng hiển thị đồng hồ đếm lên (Bấm vào đây để reset về 00:00:00) -->  
             <div class="timer-display" id="countUpTimer">00:00:00</div>  
         </div>  
     </section>  
@@ -314,6 +318,13 @@
     updateTimer();  
     setInterval(updateTimer, 1000);  
 
+    /* ---------- Tính năng bấm vào đồng hồ đếm lên để reset về 00:00:00 ---------- */  
+    timerEl.addEventListener("click", () => {  
+        startTime = Date.now();  
+        localStorage.setItem("emp_timer_start", startTime);  
+        updateTimer();  
+    });  
+
     /* ---------- Ngày giờ thực phía trên mã QR ---------- */  
     const tsEl = document.getElementById("liveTimestamp");  
 
@@ -339,10 +350,34 @@
     document.getElementById("refreshBtn").addEventListener("click", refreshQR);  
     renderQR();  
 
-    /* ---------- Chặn zoom / double-tap zoom ---------- */  
+    /* ---------- Tính năng khoá vuốt & Chạm 4 lần liên tiếp để thoát ứng dụng ---------- */  
+    let tapCount = 0;  
+    let lastTapTime = 0;  
+
+    document.getElementById("empTitle").addEventListener("click", (e) => {  
+        const now = Date.now();  
+        if (now - lastTapTime < 500) {  
+            tapCount++;  
+        } else {  
+            tapCount = 1;  
+        }  
+        lastTapTime = now;  
+
+        if (tapCount === 4) {  
+            tapCount = 0;  
+            if (confirm("Xác nhận thoát ứng dụng?")) {  
+                window.close();  
+                setTimeout(() => {  
+                    window.location.href = "about:blank";  
+                }, 100);  
+            }  
+        }  
+    });  
+
+    // Ngăn chặn hoàn toàn các cử chỉ kéo trượt / pinch zoom  
     document.addEventListener("gesturestart", (e) => e.preventDefault());  
     document.addEventListener("touchmove", (e) => {  
-        if (e.scale !== 1) e.preventDefault();  
+        e.preventDefault();  
     }, { passive: false });  
 
     let lastTouchEnd = 0;  
