@@ -1,16 +1,15 @@
 {
-  "id": "./",
-  "name": "员工码",
+  "name": "员工码 Employee Pass",
   "short_name": "员工码",
-  "description": " ",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "./index.html",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#292b47",
+  "background_color": "#46486b",
   "theme_color": "#46486b",
   "icons": [
-    {"src": "./Icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "./Icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
   ]
 }
