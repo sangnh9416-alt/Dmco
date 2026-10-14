@@ -1,20 +1,21 @@
-
 {
-  "id": "./",
-  "name": "员工码 ",
-  "short_name": "员工码",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#2f3152",
-  "theme_color": "#46486b",
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    }
-  ]
+"id": "./",
+"name": "员工码 - Employee QR Pass",
+"short_name": "员工码",
+"description": "Employee QR Pass",
+"lang": "vi",
+"start_url": "./",
+"scope": "./",
+"display": "standalone",
+"orientation": "portrait",
+"background_color": "#2f3152",
+"theme_color": "#46486b",
+"icons": [
+{
+"src": "./icon.svg",
+"sizes": "any",
+"type": "image/svg+xml",
+"purpose": "any"
+}
+]
 }
