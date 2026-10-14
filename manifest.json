@@ -1,15 +1,20 @@
+
 {
-  "name": "员工码 Employee Pass",
+  "id": "./",
+  "name": "员工码 ",
   "short_name": "员工码",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#46486b",
+  "orientation": "portrait",
+  "background_color": "#2f3152",
   "theme_color": "#46486b",
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
