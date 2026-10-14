@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+    <!-- Nền cam bo góc -->
+    <rect width="512" height="512" rx="112" fill="#f58220"/>
+    
+    <!-- Phần trên: Các họa tiết QR trắng -->
+    <g fill="#ffffff">
+        <rect x="108" y="60" width="36" height="130" rx="18"/>
+        <rect x="174" y="60" width="36" height="130" rx="18"/>
+        <rect x="240" y="60" width="36" height="130" rx="18"/>
+        <path d="M306 60h138a18 18 0 0 1 18 18v138a18 18 0 0 1-18 18H306a18 18 0 0 1-18-18V78a18 18 0 0 1 18-18zm18 36v102h102V96H324z"/>
+        <rect x="354" y="126" width="42" height="42" rx="6"/>
+
+        <path d="M96 216h138a18 18 0 0 1 18 18v138a18 18 0 0 1-18 18H96a18 18 0 0 1-18-18V234a18 18 0 0 1 18-18zm18 36v102h102V252H114z"/>
+        <rect x="144" y="282" width="42" height="42" rx="6"/>
+
+        <path d="M264 216h48a18 18 0 0 1 18 18v54h48v-54a18 18 0 0 1 18-18h48a18 18 0 0 1 18 18v138a18 18 0 0 1-18 18h-48a18 18 0 0 1-18-18v-36h-48v36a18 18 0 0 1-18 18h-48a18 18 0 0 1-18-18V234a18 18 0 0 1 18-18z"/>
+    </g>
+
+    <!-- Khối trắng bo cong chứa chữ ở dưới -->
+    <path d="M0,380 C150,330 360,330 512,380 L512,512 L0,512 Z" fill="#ffffff"/>
+    
+    <!-- Chữ "员工码" màu cam -->
+    <text x="256" y="455" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="100" font-weight="bold" fill="#f58220" text-anchor="middle">员工码</text>
+</svg>
