@@ -217,8 +217,8 @@
 <script>  
     const pad = (n) => String(n).padStart(2, "0");  
 
-    /* ---------- Quản lý danh sách hình QR: qr1.png, qr2.png, qr3.png ---------- */  
-    const qrImages = ["qr1.png", "qr2.png", "qr3.png"];  
+    /* ---------- Quản lý danh sách hình QR: qr1.png, qr2.png, qr3.png, qr4.png ---------- */  
+    const qrImages = ["qr1.png", "qr2.png", "qr3.png", "qr4.png"];  
     let currentQRIndex = 0;  
 
     function renderQR() {  
@@ -280,7 +280,6 @@
     let lastTapTime = 0;  
 
     document.getElementById("empTitle").addEventListener("click", (e) => {  
-        // Mỗi lần bấm vào mã nhân viên sẽ đồng thời reset thời gian về 00:00:00  
         startTime = Date.now();  
         localStorage.setItem("emp_timer_start", startTime);  
         updateTimer();  
