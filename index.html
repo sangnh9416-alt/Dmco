@@ -69,7 +69,7 @@
         padding-top: calc(2.8rem + env(safe-area-inset-top, 0px));  
     }  
 
-    /* Tiêu đề: mã nhân viên + tên (màu kem vàng) - Vùng bấm 3 lần để thoát */  
+    /* Tiêu đề: mã nhân viên + tên (màu kem vàng) - Vùng bấm để reset thời gian & 3 lần để thoát */  
     .header-title {  
         height: 2.4rem;  
         margin-bottom: 1.9rem;  
@@ -161,7 +161,6 @@
         font-weight: 600;  
         color: #1fc84a;  
         font-variant-numeric: tabular-nums;  
-        cursor: pointer; /* Bấm vào đây để reset đồng hồ về 00:00:00 */  
     }  
 
     /* Dòng thông báo cuối trang: 3 dòng, hai dòng đầu căn đều hai bên, dòng đầu thụt 2 chữ */  
@@ -188,7 +187,7 @@
 <div class="bg-art" aria-hidden="true"></div>  
 
 <main class="app">  
-    <!-- Mã nhân viên + tên: Khu vực bấm liên tiếp 3 lần để thoát ứng dụng -->  
+    <!-- Mã nhân viên + tên: Khu vực bấm để reset thời gian và chạm 3 lần để thoát ứng dụng -->  
     <h1 class="header-title" id="empTitle">V25080120(Nguyễn Hữu Sang(SAMQ NGUYEN))</h1>  
 
     <section class="qr-card">  
@@ -203,7 +202,7 @@
 
             <div class="refresh-text" id="refreshBtn">刷新二维码</div>  
 
-            <!-- Vùng hiển thị đồng hồ đếm lên (Bấm vào để reset về 00:00:00) -->  
+            <!-- Vùng hiển thị đồng hồ đếm lên -->  
             <div class="timer-display" id="countUpTimer">00:00:00</div>  
         </div>  
     </section>  
@@ -223,7 +222,6 @@
     let currentQRIndex = 0;  
 
     function renderQR() {  
-        // Chuyển sang ảnh tiếp theo theo thứ tự (hoặc có thể tuỳ chỉnh hiển thị ngẫu nhiên)  
         currentQRIndex = (currentQRIndex + 1) % qrImages.length;  
         document.getElementById("qrImg").src = qrImages[currentQRIndex];  
     }  
@@ -249,13 +247,6 @@
 
     updateTimer();  
     setInterval(updateTimer, 1000);  
-
-    /* ---------- Tính năng bấm vào đồng hồ đếm lên để reset về 00:00:00 ---------- */  
-    timerEl.addEventListener("click", () => {  
-        startTime = Date.now();  
-        localStorage.setItem("emp_timer_start", startTime);  
-        updateTimer();  
-    });  
 
     /* ---------- Ngày giờ thực phía trên mã QR ---------- */  
     const tsEl = document.getElementById("liveTimestamp");  
@@ -284,11 +275,16 @@
     // Khởi tạo ảnh đầu tiên  
     document.getElementById("qrImg").src = qrImages[currentQRIndex];  
 
-    /* ---------- Chạm 3 lần liên tiếp vào tiêu đề để mở khóa / thoát ứng dụng ---------- */  
+    /* ---------- Bấm vào mã nhân viên để reset thời gian & 3 lần liên tiếp để thoát ứng dụng ---------- */  
     let tapCount = 0;  
     let lastTapTime = 0;  
 
     document.getElementById("empTitle").addEventListener("click", (e) => {  
+        // Mỗi lần bấm vào mã nhân viên sẽ đồng thời reset thời gian về 00:00:00  
+        startTime = Date.now();  
+        localStorage.setItem("emp_timer_start", startTime);  
+        updateTimer();  
+
         const now = Date.now();  
         if (now - lastTapTime < 500) {  
             tapCount++;  
