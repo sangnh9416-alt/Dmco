@@ -217,8 +217,8 @@
 <script>  
     const pad = (n) => String(n).padStart(2, "0");  
 
-    /* ---------- Quản lý danh sách hình QR: qr1.png đến qr6.png ---------- */  
-    const qrImages = ["qr1.png", "qr2.png", "qr3.png", "qr4.png", "qr5.png", "qr6.png"];  
+    /* ---------- Quản lý danh sách hình QR: qr1.png đến qr7.png ---------- */  
+    const qrImages = ["qr1.png", "qr2.png", "qr3.png", "qr4.png", "qr5.png", "qr6.png", "qr7.png"];  
     let currentQRIndex = 0;  
 
     function renderQR() {  
@@ -260,7 +260,7 @@
     setInterval(updateLiveDateTime, 1000);  
     updateLiveDateTime();  
 
-    /* ---------- Bấm "刷新二维码" (Delay 2 giây) ---------- */  
+    /* ---------- Bấm "刷新二维码" (Delay 1.3 giây) ---------- */  
     function refreshQR() {  
         const box = document.getElementById("qrBox");  
         box.style.opacity = "0.3";  
@@ -268,7 +268,7 @@
             renderQR();  
             box.style.opacity = "1";  
             updateLiveDateTime();  
-        }, 2000); // Đã đổi từ 200ms lên 2000ms (2 giây)  
+        }, 1300); // Đã đổi thành 1300ms (1.3 giây)  
     }  
     document.getElementById("refreshBtn").addEventListener("click", refreshQR);  
     
